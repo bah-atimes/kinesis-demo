@@ -52,5 +52,4 @@ public class WorkerBee implements Runnable {
         }
         log.info("Completed record EHK=" + aggRecord.getExplicitHashKey());
     }
-
 }
