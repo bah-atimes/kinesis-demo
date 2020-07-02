@@ -2,10 +2,7 @@ package gov.va.vba.vbms.sirius.kinesis.aggregator.prototype.demo.engine;
 
 import com.amazonaws.kinesis.agg.AggRecord;
 import com.amazonaws.services.kinesis.AmazonKinesis;
-import com.amazonaws.services.kinesis.producer.UserRecord;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
