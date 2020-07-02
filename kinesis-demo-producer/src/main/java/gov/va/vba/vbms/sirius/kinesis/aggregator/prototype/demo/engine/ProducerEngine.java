@@ -23,14 +23,11 @@ public class ProducerEngine {
     @Autowired
     ProducerConfig config;
 
+    @Autowired
     AmazonKinesis amazonKinesis;
 
+    @Autowired
     ConcurrentLinkedQueue<AggRecord> queue;
-
-    ProducerEngine(ConcurrentLinkedQueue<AggRecord> queue, AmazonKinesis kinesis) {
-        this.amazonKinesis = kinesis;
-        this.queue = queue;
-    }
 
     @PostConstruct
     private void createStreamIfMissing() {
