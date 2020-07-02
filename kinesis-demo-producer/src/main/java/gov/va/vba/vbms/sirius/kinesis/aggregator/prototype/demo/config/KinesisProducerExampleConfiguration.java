@@ -2,6 +2,7 @@ package gov.va.vba.vbms.sirius.kinesis.aggregator.prototype.demo.config;
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.kinesis.agg.AggRecord;
 import com.amazonaws.services.kinesis.AmazonKinesis;
 import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder;
 import com.amazonaws.services.kinesis.producer.KinesisProducer;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Configuration to make localstack work for the KPL and Kinesis Binder
@@ -38,6 +40,11 @@ public class KinesisProducerExampleConfiguration {
                 .setKinesisEndpoint(kinesisUri.getHost())
                 .setKinesisPort(kinesisUri.getPort())
                 .setVerifyCertificate(false);
+    }
+
+    @Bean
+    public ConcurrentLinkedQueue<AggRecord> concurrentLinkedQueue() {
+        return new ConcurrentLinkedQueue<AggRecord>();
     }
 
     @Bean

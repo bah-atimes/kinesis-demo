@@ -5,7 +5,6 @@ import com.amazonaws.kinesis.agg.RecordAggregator;
 import com.amazonaws.services.kinesis.AmazonKinesis;
 import gov.va.vba.vbms.sirius.kinesis.aggregator.prototype.demo.config.ProducerConfig;
 import gov.va.vba.vbms.sirius.kinesis.aggregator.prototype.demo.util.ProducerUtils;
-import javafx.concurrent.Worker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,8 +27,9 @@ public class ProducerEngine {
 
     ConcurrentLinkedQueue<AggRecord> queue;
 
-    ProducerEngine(AmazonKinesis kinesis) {
+    ProducerEngine(ConcurrentLinkedQueue<AggRecord> queue, AmazonKinesis kinesis) {
         this.amazonKinesis = kinesis;
+        this.queue = queue;
     }
 
     @PostConstruct
@@ -38,11 +38,10 @@ public class ProducerEngine {
             amazonKinesis.createStream(config.STREAM_NAME, 1);
             log.info("stream " + config.STREAM_NAME + " created.");
         }
-        queue = new ConcurrentLinkedQueue();
 
-        WorkerBee bee = new WorkerBee(queue, amazonKinesis);
-        Thread queenBee = new Thread(bee);
-        queenBee.start();
+        WorkerBee workerBee = new WorkerBee(queue, amazonKinesis);
+        Thread t = new Thread(workerBee);
+        t.start();
     }
 
     public void generateAndPublish(RecordAggregator aggregator) {
