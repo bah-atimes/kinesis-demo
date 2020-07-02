@@ -74,6 +74,8 @@ public class ProducerEngine {
 
     private void flushAndFinish(RecordAggregator aggregator) {
         AggRecord finalRecord = aggregator.clearAndGet();
-        queue.add(finalRecord);
+        if(finalRecord != null) {
+            queue.add(finalRecord);
+        }
     }
 }
